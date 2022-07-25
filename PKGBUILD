@@ -1,34 +1,26 @@
 # $Id$
 # Maintainer: Chupligin Sergey (NeoChapay) <neochapay@gmail.com>
 
-_host="github.com"
-_project=nemomobile-ux
-_basename=glacier-devicelock-plugin
-_branch=master
-
-_gitname=$_basename
-pkgname=$_basename
-
-pkgver=0.2
-
+pkgname=glacier-devicelock-plugin
+pkgver=0.2.1
 pkgrel=1
 pkgdesc="Glacier devicelock plugin"
 arch=('x86_64' 'aarch64')
-url="https://$_host/$_project/$_gitname#branch=$_branch"
+url="https://github.com/nemomobile-ux/glacier-devicelock-plugin"
 license=('LGPL-2.1')
 depends=('nemo-qml-plugin-devicelock')
-makedepends=('git' 'cmake' 'glib2')
-source=("${pkgname}::git+${url}")
-sha256sums=('SKIP')
+makedepends=('cmake' 'glib2')
+source=("${url}/archive/refs/tags/$pkgver.tar.gz")
+sha256sums=('038e4a5392f7fc6dd252c8eefdd66615bd3d90bd91d4c9462465c08339672e60')
 
 build() {
+    cd $pkgname-$pkgver
     cmake \
-        -B "${pkgname}/build" \
-        -S "${pkgname}" \
         -DCMAKE_INSTALL_PREFIX:PATH='/usr'
-    make -C "${pkgname}/build" all
+    make all
 }
 
 package() {
-    make -C "${srcdir}/${pkgname}/build" DESTDIR="$pkgdir" install
+    cd $pkgname-$pkgver
+    make DESTDIR="$pkgdir" install
 }
