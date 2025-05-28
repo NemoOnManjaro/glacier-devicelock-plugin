@@ -22,7 +22,7 @@ build() {
 }
 
 check() {
-    make test
+    make -C "${pkgname}-${pkgver}/build" test
 }
 
 package() {
